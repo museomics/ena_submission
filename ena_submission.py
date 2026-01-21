@@ -39,6 +39,82 @@ def setup_output_directory(output_path, overwrite):
         os.makedirs(output_path)
 
 
+def split_circular_annotations(gff_path, fasta_path, output_path, sample_id):
+    """
+    Split annotations that span the junction in circular genomes.
+    
+    For circular genomes, some annotations may wrap around the origin.
+    This function splits such features into two parts (part_a and part_b).
+    
+    Note: This assumes a single circular sequence, which should be validated
+    before calling this function.
+    """
+    # Get sequence length from fasta (expect single sequence for circular genomes)
+    seq_length = 0
+    num_seqs = 0
+    with open(fasta_path, 'r') as f:
+        seq = ''
+        for line in f:
+            if line.startswith('>'):
+                num_seqs += 1
+                if num_seqs > 1:
+                    raise ValueError(f"Circular genome should contain only one sequence, found {num_seqs}")
+            else:
+                seq += line.strip()
+        seq_length = len(seq)
+    
+    if num_seqs != 1:
+        raise ValueError(f"Expected 1 sequence for circular genome, found {num_seqs}")
+    
+    output_gff = f'{output_path}/{sample_id}_split.gff'
+    
+    with open(gff_path, 'r') as infile, open(output_gff, 'w') as outfile:
+        for line in infile:
+            if line.startswith('#'):
+                outfile.write(line)
+                continue
+            
+            fields = line.strip().split('\t')
+            if len(fields) < 9:
+                outfile.write(line)
+                continue
+            
+            seqid, source, feature_type, start, end, score, strand, phase, attributes = fields
+            start, end = int(start), int(end)
+            
+            # Check if annotation spans the junction (wraps around)
+            if end < start:
+                # print message about splitting
+                print(f"   Splitting annotation with attribute {attributes} spanning junction: {start}-{end} on circular genome")
+                # Split into two parts
+                # Part A: from start to seq_length
+                part_a = fields.copy()
+                part_a[4] = str(seq_length)  # end at sequence end
+                # Modify attributes to add -part_a suffix
+                part_a[8] = attributes.replace('ID=', 'ID=').replace(';', '-part_a;', 1)
+                if 'ID=' not in part_a[8]:
+                    part_a[8] += ';Note=part_a'
+                else:
+                    part_a[8] = part_a[8].replace('ID=', 'ID=', 1).replace(';', '-part_a;', 1)
+                outfile.write('\t'.join(part_a) + '\n')
+                
+                # Part B: from 1 to end
+                part_b = fields.copy()
+                part_b[3] = '1'  # start at 1
+                # Modify attributes to add -part_b suffix
+                part_b[8] = attributes.replace('ID=', 'ID=').replace(';', '-part_b;', 1)
+                if 'ID=' not in part_b[8]:
+                    part_b[8] += ';Note=part_b'
+                else:
+                    part_b[8] = part_b[8].replace('ID=', 'ID=', 1).replace(';', '-part_b;', 1)
+                outfile.write('\t'.join(part_b) + '\n')
+            else:
+                # Normal annotation, write as is
+                outfile.write(line)
+    
+    return output_gff
+
+
 def process_sample(sample_id, scientific_name, sample_ena_id, config, 
                    output_path, project, platform, moleculetype, assemblytype, 
                    basedir, username, password):
@@ -101,6 +177,11 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
     else:
         gff_path = list_gff_files[0]
 
+    # split annotations which span the break point for circular genomes
+    if topology == 'circular':
+        print(f"   Splitting annotations spanning the junction for circular genome")
+        gff_path = split_circular_annotations(gff_path, fasta_path, output_path, sample_id)
+
     # Run EMBLmyGFF3
     print(f"   Running EMBLmyGFF3 for sample {sample_id}")
     cmd = [
@@ -111,14 +192,19 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
         '--species', scientific_name,
         '--locus_tag', 'LOCUSTAG',
         '--project_id', project,
-        '-o', f'{output_path}/{sample_id}.embl'
+        '--shame', '-o', f'{output_path}/{sample_id}.embl'
     ]
 
     log_file_emblmygff3 = f'{output_path}/{sample_id}_EMBLmyGFF3.log'
     with open(log_file_emblmygff3, 'w') as log:
         result = subprocess.run(cmd, stdout=log, stderr=log, text=True)
-    print(f"   Log written to: {log_file_emblmygff3}")
-
+    print(f"   EMBLmyGFF3 log written to: {log_file_emblmygff3} and printed below:")
+    print("   ----- EMBLmyGFF3 LOG START -----")
+    with open(log_file_emblmygff3, 'r') as log:
+        for line in log:
+            print(f"      {line.strip()}")
+    print("   ----- EMBLmyGFF3 LOG END -----")
+    
     # Remove temporary gff file if created
     if len(list_gff_files) > 1:
         os.remove(temp_gff_path)
@@ -172,7 +258,7 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
     # Run ena-webin-cli to validate assembly
     print('   Validating the manifest file with ena-webin-cli')
 
-    cmd2 = ['echo', 'ena-webin-cli', '-context', 'genome', '-validate',
+    cmd2 = ['ena-webin-cli', '-context', 'genome', '-validate',
             '-manifest', f'{output_path}/{sample_id}_manifest.txt', 
             '-userName', f'{username}', '-password', f'{password}',
             '-inputDir', f'{output_path}']
@@ -180,8 +266,12 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
     log_file_ena_webin = f'{output_path}/{sample_id}_ena_webin.log'
     with open(log_file_ena_webin, 'w') as log:
         result = subprocess.run(cmd2, stdout=log, stderr=log, text=True)
-    print(f"   Log written to: {log_file_ena_webin}")
-
+    print(f"   ena-webin-cli log written to: {log_file_ena_webin} and printed below:")
+    print("   ----- ena-webin-cli LOG START -----")
+    with open(log_file_ena_webin, 'r') as log:
+        for line in log:
+            print(f"      {line.strip()}")
+    print("   ----- ena-webin-cli LOG END -----")   
     print()
 
 
@@ -301,7 +391,5 @@ Example usage:
     
     print("Processing complete!")
 
-
 if __name__ == '__main__':
     main()
-

@@ -10,8 +10,8 @@ conda activate ena_submission_env
 #### Run code 
 ```
 python3 ena_submission.py \
-   -s sample_list.txt \
-   -c config_solariellid.yaml \
+   -s .test/sample_list.txt \
+   -c .test/skim2mito/config/config.yaml \
    -o example_output \
    -b .test/skim2mito \
    --project PRJEB76850 \
