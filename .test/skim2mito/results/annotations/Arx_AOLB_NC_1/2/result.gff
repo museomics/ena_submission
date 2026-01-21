@@ -1,0 +1,6 @@
+Arx_AOLB_NC_1_contig2	mitos	gene	3	746	.	+	.	ID=gene_cox1;gene_id=cox1
+Arx_AOLB_NC_1_contig2	mitos	mRNA	3	746	.	+	.	ID=transcript_cox1;Parent=gene_cox1;gene_id=cox1
+Arx_AOLB_NC_1_contig2	mitos	exon	3	746	709866416.7	+	3.0	Parent=transcript_cox1;Name=cox1
+Arx_AOLB_NC_1_contig2	mitos	gene	898	1221	.	+	.	ID=gene_cox2;gene_id=cox2
+Arx_AOLB_NC_1_contig2	mitos	mRNA	898	1221	.	+	.	ID=transcript_cox2;Parent=gene_cox2;gene_id=cox2
+Arx_AOLB_NC_1_contig2	mitos	exon	898	1221	84092333.5	+	1.0	Parent=transcript_cox2;Name=cox2

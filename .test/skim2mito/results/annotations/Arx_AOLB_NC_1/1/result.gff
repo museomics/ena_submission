@@ -1,0 +1,17 @@
+Arx_AOLB_NC_1_contig1	mitos	origin_of_replication	5	71	.	+	.	ID=gene_OH_2;gene_id=OH_2
+Arx_AOLB_NC_1_contig1	mitfi	origin_of_replication	133	157	.	+	.	ID=gene_OL;gene_id=OL
+Arx_AOLB_NC_1_contig1	mitos	origin_of_replication	136	499	.	+	.	ID=gene_OH_1;gene_id=OH_1
+Arx_AOLB_NC_1_contig1	mitos	exon	296	499	7075.1	+	1.0	Parent=transcript_OH_1;Name=OH_1-b
+Arx_AOLB_NC_1_contig1	mitfi	ncRNA_gene	578	677	.	-	.	ID=gene_trnS1;gene_id=trnS1
+Arx_AOLB_NC_1_contig1	mitfi	tRNA	578	677	.	-	.	ID=transcript_trnS1;Parent=gene_trnS1;gene_id=trnS1
+Arx_AOLB_NC_1_contig1	mitfi	exon	578	677	0.0410000011325	-	.	Parent=transcript_trnS1;Name=trnS1
+Arx_AOLB_NC_1_contig1	mitos	origin_of_replication	738	913	.	+	.	ID=gene_OH_0;gene_id=OH_0
+Arx_AOLB_NC_1_contig1	mitfi	ncRNA_gene	997	1066	.	+	.	ID=gene_trnL1;gene_id=trnL1
+Arx_AOLB_NC_1_contig1	mitfi	tRNA	997	1066	.	+	.	ID=transcript_trnL1;Parent=gene_trnL1;gene_id=trnL1
+Arx_AOLB_NC_1_contig1	mitfi	exon	997	1066	5.80000006356e-11	+	.	Parent=transcript_trnL1;Name=trnL1
+Arx_AOLB_NC_1_contig1	mitfi	ncRNA_gene	1102	1169	.	+	.	ID=gene_trnL2;gene_id=trnL2
+Arx_AOLB_NC_1_contig1	mitfi	tRNA	1102	1169	.	+	.	ID=transcript_trnL2;Parent=gene_trnL2;gene_id=trnL2
+Arx_AOLB_NC_1_contig1	mitfi	exon	1102	1169	1.59999997192e-13	+	.	Parent=transcript_trnL2;Name=trnL2
+Arx_AOLB_NC_1_contig1	mitos	gene	1195	1431	.	+	.	ID=gene_nad1;gene_id=nad1
+Arx_AOLB_NC_1_contig1	mitos	mRNA	1195	1431	.	+	.	ID=transcript_nad1;Parent=gene_nad1;gene_id=nad1
+Arx_AOLB_NC_1_contig1	mitos	exon	1195	1431	28949408.3	+	1.0	Parent=transcript_nad1;Name=nad1

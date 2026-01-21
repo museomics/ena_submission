@@ -1,0 +1,2 @@
+file                    format  type  num_seqs  sum_len  min_len  avg_len  max_len
+cfSol_SOBS_VAN_1.fasta  FASTA   DNA          1   16,053   16,053   16,053   16,053

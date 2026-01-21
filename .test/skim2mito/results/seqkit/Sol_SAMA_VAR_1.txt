@@ -1,0 +1,2 @@
+file                  format  type  num_seqs  sum_len  min_len  avg_len  max_len
+Sol_SAMA_VAR_1.fasta  FASTA   DNA          1   18,591   18,591   18,591   18,591

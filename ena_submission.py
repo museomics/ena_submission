@@ -40,13 +40,14 @@ def setup_output_directory(output_path, overwrite):
 
 
 def process_sample(sample_id, scientific_name, sample_ena_id, config, 
-                   output_path, project, platform, moleculetype):
+                   output_path, project, platform, moleculetype, assemblytype, 
+                   basedir, username, password):
     """Process a single sample and generate all required files."""
     print(f"Processing sample: {sample_id}")
 
     # Define expected paths
-    fasta_path = f"results/assembled_sequence/{sample_id}.fasta"
-    annotation_dir = f"results/annotations/{sample_id}/"
+    fasta_path = os.path.join(basedir, f"results/assembled_sequence/{sample_id}.fasta")
+    annotation_dir = os.path.join(basedir, f"results/annotations/{sample_id}/")
 
     # Check if assembly exists
     if not os.path.exists(fasta_path):
@@ -113,10 +114,10 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
         '-o', f'{output_path}/{sample_id}.embl'
     ]
 
-    log_file = f'{output_path}/{sample_id}.log'
-    with open(log_file, 'w') as log:
+    log_file_emblmygff3 = f'{output_path}/{sample_id}_EMBLmyGFF3.log'
+    with open(log_file_emblmygff3, 'w') as log:
         result = subprocess.run(cmd, stdout=log, stderr=log, text=True)
-    print(f"   Log written to: {log_file}")
+    print(f"   Log written to: {log_file_emblmygff3}")
 
     # Remove temporary gff file if created
     if len(list_gff_files) > 1:
@@ -124,6 +125,10 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
 
     # Copy fasta to output directory
     subprocess.run(['cp', fasta_path, f'{output_path}/{sample_id}.fasta'])
+
+    # Gzip fasta 
+    subprocess.run(['gzip', '-f', f'{output_path}/{sample_id}.fasta'])
+
 
     # Handle circular/chromosomal assemblies
     if topology == 'circular':
@@ -134,7 +139,8 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
             chrom_file.write(f"{sample_id}\tMIT\tchromosome\tcircular\tMitochondrion\n")
 
         # Get sequence length
-        with open(f'results/seqkit/{sample_id}.txt', 'r') as seqkit_file:
+        seqkit_path = os.path.join(basedir, f'results/seqkit/{sample_id}.txt')
+        with open(seqkit_path, 'r') as seqkit_file:
             seqkit_file.readline()  # skip header
             seq_len = int(seqkit_file.readline().strip('\n').split()[4].replace(',', ''))
 
@@ -144,7 +150,8 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
             apg_file.write(f"MIT\t1\t{seq_len}\t1\tW\t{sample_id}\t1\t{seq_len}\t+\n")
 
     # Get sequence coverage
-    with open(f'results/blobtools/{sample_id}/table.tsv', 'r') as blobtools_file:
+    blobtools_path = os.path.join(basedir, f'results/blobtools/{sample_id}/table.tsv')
+    with open(blobtools_path, 'r') as blobtools_file:
         blobtools_file.readline()  # skip header
         seq_coverage = blobtools_file.readline().strip('\n').split()[4]
 
@@ -159,8 +166,22 @@ def process_sample(sample_id, scientific_name, sample_ena_id, config,
         manifest.write(f'PLATFORM\t{platform}\n')
         manifest.write(f'MINGAPLENGTH\t1\n')
         manifest.write(f'MOLECULETYPE\t{moleculetype}\n')
-        manifest.write(f'FASTA\t{sample_id}.fasta\n')
-    
+        manifest.write(f'ASSEMBLYTYPE\t{assemblytype}\n')
+        manifest.write(f'FASTA\t{sample_id}.fasta.gz\n')
+
+    # Run ena-webin-cli to validate assembly
+    print('   Validating the manifest file with ena-webin-cli')
+
+    cmd2 = ['echo', 'ena-webin-cli', '-context', 'genome', '-validate',
+            '-manifest', f'{output_path}/{sample_id}_manifest.txt', 
+            '-userName', f'{username}', '-password', f'{password}',
+            '-inputDir', f'{output_path}']
+
+    log_file_ena_webin = f'{output_path}/{sample_id}_ena_webin.log'
+    with open(log_file_ena_webin, 'w') as log:
+        result = subprocess.run(cmd2, stdout=log, stderr=log, text=True)
+    print(f"   Log written to: {log_file_ena_webin}")
+
     print()
 
 
@@ -172,6 +193,7 @@ def main():
 Example usage:
   %(prog)s -s ena_sample_list.txt -c config/config.yaml -o test_embl
   %(prog)s -s samples.txt -c config.yaml -o output --project PRJEB12345 --overwrite
+  %(prog)s -s samples.txt -c config.yaml -o output -b /path/to/data
         """
     )
     
@@ -194,6 +216,11 @@ Example usage:
     
     # Optional arguments
     parser.add_argument(
+        '-b', '--basedir',
+        default='.',
+        help='Base directory for input files (default: current directory)'
+    )
+    parser.add_argument(
         '--project',
         default='PRJXXX',
         help='ENA project accession (default: PRJXXX)'
@@ -207,6 +234,19 @@ Example usage:
         '--moleculetype',
         default='genomic DNA',
         help='Molecule type (default: genomic DNA)'
+    )
+    parser.add_argument(
+        '--assemblytype',
+        default='isolate',
+        help='Assembly type (default: isolate)'
+    )
+    parser.add_argument(
+        '--ena_username',
+        help='ENA username for webin-cli'
+    )
+    parser.add_argument(
+        '--ena_password',
+        help='ENA password for webin-cli'
     )
     parser.add_argument(
         '--overwrite',
@@ -252,7 +292,11 @@ Example usage:
             output_path=args.output,
             project=args.project,
             platform=args.platform,
-            moleculetype=args.moleculetype
+            moleculetype=args.moleculetype,
+            assemblytype=args.assemblytype,
+            basedir=args.basedir,
+            username=args.ena_username,
+            password=args.ena_password
         )
     
     print("Processing complete!")
@@ -260,3 +304,4 @@ Example usage:
 
 if __name__ == '__main__':
     main()
+

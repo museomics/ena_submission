@@ -1,0 +1,2 @@
+file                    format  type  num_seqs  sum_len  min_len  avg_len  max_len
+Ilang_IWHI_ECP_1.fasta  FASTA   DNA          2   13,870    3,253    6,935   10,617

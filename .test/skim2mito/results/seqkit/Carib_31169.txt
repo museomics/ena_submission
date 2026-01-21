@@ -1,0 +1,2 @@
+file               format  type  num_seqs  sum_len  min_len  avg_len  max_len
+Carib_31169.fasta  FASTA   DNA          3   10,728    2,433    3,576    5,212

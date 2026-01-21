@@ -1,0 +1,2 @@
+file                   format  type  num_seqs  sum_len  min_len  avg_len  max_len
+Zet_ZKP_1315332.fasta  FASTA   DNA          1   16,974   16,974   16,974   16,974

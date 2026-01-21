@@ -1,0 +1,16 @@
+Carib_31169_contig1	mitos	gene	26	211	.	+	.	ID=gene_nad4;gene_id=nad4
+Carib_31169_contig1	mitos	mRNA	26	211	.	+	.	ID=transcript_nad4;Parent=gene_nad4;gene_id=nad4
+Carib_31169_contig1	mitos	exon	26	211	1853182.8	+	2.0	Parent=transcript_nad4;Name=nad4
+Carib_31169_contig1	mitfi	ncRNA_gene	244	313	.	+	.	ID=gene_trnH;gene_id=trnH
+Carib_31169_contig1	mitfi	tRNA	244	313	.	+	.	ID=transcript_trnH;Parent=gene_trnH;gene_id=trnH
+Carib_31169_contig1	mitfi	exon	244	313	5.20000007498e-08	+	.	Parent=transcript_trnH;Name=trnH
+Carib_31169_contig1	mitos	origin_of_replication	364	430	.	+	.	ID=gene_OH;gene_id=OH
+Carib_31169_contig1	mitos	gene	386	2050	.	+	.	ID=gene_nad5;gene_id=nad5
+Carib_31169_contig1	mitos	mRNA	386	2050	.	+	.	ID=transcript_nad5;Parent=gene_nad5;gene_id=nad5
+Carib_31169_contig1	mitos	exon	386	2050	1177822463.2	+	2.0	Parent=transcript_nad5;Name=nad5
+Carib_31169_contig1	mitfi	ncRNA_gene	2076	2143	.	+	.	ID=gene_trnF;gene_id=trnF
+Carib_31169_contig1	mitfi	tRNA	2076	2143	.	+	.	ID=transcript_trnF;Parent=gene_trnF;gene_id=trnF
+Carib_31169_contig1	mitfi	exon	2076	2143	2.0000000267e-10	+	.	Parent=transcript_trnF;Name=trnF
+Carib_31169_contig1	mitos	gene	2192	2419	.	-	.	ID=gene_atp6;gene_id=atp6
+Carib_31169_contig1	mitos	mRNA	2192	2419	.	-	.	ID=transcript_atp6;Parent=gene_atp6;gene_id=atp6
+Carib_31169_contig1	mitos	exon	2192	2419	2367947.4	-	-2.0	Parent=transcript_atp6;Name=atp6

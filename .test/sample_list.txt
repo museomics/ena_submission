@@ -1,0 +1,27 @@
+ID	scientificName	SampleID
+Zet_ZKP_1315332	Zetela kopua	ERS20824233
+Zet_ZALP_103187	Zetela alphonsi	ERS20824232
+Suavo_61502	Suavotrochus sp. 2 STW-2024	ERS20824231
+Suavo_61096	Suavotrochus lubricus	ERS20824230
+Spec_SFRA_V1091	Spectamen franciscanum	ERS20824229
+Spec_SPHI_MRT_3	Spectamen cf. bellulum	ERS20824228
+SOL_VAR_1	Solariella varicosa	ERS20824227
+cfSol_SOBS_VAN_1	Solariella obscura	ERS20824226
+cfSolariell_61297	Solariella carvalhoi	ERS20824225
+Sol_A_MIN_SP	Solariella sp. 7 LS-2013	ERS20824224
+Sol_SAMA_VAR_1	Solariella amabilis	ERS20824223
+Phrag_M299700	Phragmomphalina tenuiseptum	ERS20824222
+Mic_8023_440_KAR	Microgaza rotella	ERS20824221
+Carib_31169	Lamellitrochus carinatus	ERS20824220
+Lamel_60491	Lamellitrochus sp. 6 STW-2021	ERS20824219
+Ilang_IWHI_ECP_1	Ilanga whitechurchi	ERS20824218
+Elaph_45837	Elaphriella wareni	ERS20824217
+CladeD_59648	Solariellidae 'clade D' sp. 1 STW-2024	ERS20824216
+Chono_127100	Chonospeira nuda	ERS20824215
+Bath_A_Fij_sp2	Bathymophila sp. 12 LS-2013	ERS20824214
+Bath_23103_JS207	Bathymophila sp. 18 LS-2016	ERS20824213
+Bath_M299691	Bathymophila gravida	ERS20824212
+Arx_AOLB_NC_1	Arxellia herosae	ERS20824211
+Arc_AOLE_QLD_5	Archiminolia oleacea	ERS20824210
+Lunella	Lunella aff. cinerea STW-2013	ERS20824235
+Zet_ZTX_M035478	Zetela textilis	ERS20824234

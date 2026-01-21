@@ -1,0 +1,3 @@
+Arc_AOLE_QLD_5_contig0	mitos	gene	3	344	.	+	.	ID=gene_nad1;gene_id=nad1
+Arc_AOLE_QLD_5_contig0	mitos	mRNA	3	344	.	+	.	ID=transcript_nad1;Parent=gene_nad1;gene_id=nad1
+Arc_AOLE_QLD_5_contig0	mitos	exon	3	344	103761491.0	+	3.0	Parent=transcript_nad1;Name=nad1

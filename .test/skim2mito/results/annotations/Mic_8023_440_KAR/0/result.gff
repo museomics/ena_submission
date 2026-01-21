@@ -1,0 +1,13 @@
+Mic_8023_440_KAR_contig0	mitfi	ncRNA_gene	15	82	.	+	.	ID=gene_trnS1;gene_id=trnS1
+Mic_8023_440_KAR_contig0	mitfi	tRNA	15	82	.	+	.	ID=transcript_trnS1;Parent=gene_trnS1;gene_id=trnS1
+Mic_8023_440_KAR_contig0	mitfi	exon	15	82	4.20000015669e-12	+	.	Parent=transcript_trnS1;Name=trnS1
+Mic_8023_440_KAR_contig0	mitos	gene	212	1210	.	+	.	ID=gene_nad2;gene_id=nad2
+Mic_8023_440_KAR_contig0	mitos	mRNA	212	1210	.	+	.	ID=transcript_nad2;Parent=gene_nad2;gene_id=nad2
+Mic_8023_440_KAR_contig0	mitos	exon	212	1210	247631529.0	+	2.0	Parent=transcript_nad2;Name=nad2
+Mic_8023_440_KAR_contig0	mitos	gene	1245	2780	.	+	.	ID=gene_cox1;gene_id=cox1
+Mic_8023_440_KAR_contig0	mitos	mRNA	1245	2780	.	+	.	ID=transcript_cox1;Parent=gene_cox1;gene_id=cox1
+Mic_8023_440_KAR_contig0	mitos	exon	1245	2780	2413321115.6	+	3.0	Parent=transcript_cox1;Name=cox1
+Mic_8023_440_KAR_contig0	mitos	origin_of_replication	2779	2854	.	+	.	ID=gene_OH;gene_id=OH
+Mic_8023_440_KAR_contig0	mitos	gene	2862	3290	.	+	.	ID=gene_cox2;gene_id=cox2
+Mic_8023_440_KAR_contig0	mitos	mRNA	2862	3290	.	+	.	ID=transcript_cox2;Parent=gene_cox2;gene_id=cox2
+Mic_8023_440_KAR_contig0	mitos	exon	2862	3290	163251906.6	+	3.0	Parent=transcript_cox2;Name=cox2

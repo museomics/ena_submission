@@ -1,0 +1,4 @@
+index	identifiers	gc	length	Arx_AOLB_NC_1_cov	bestsumorder_superkingdom	bestsumorder_kingdom	bestsumorder_phylum	bestsumorder_class	bestsumorder_order	bestsumorder_family	bestsumorder_species
+0	Arx_AOLB_NC_1_contig0	0.3627	295	12.8712	no-hit	no-hit	no-hit	no-hit	no-hit	no-hit	no-hit
+1	Arx_AOLB_NC_1_contig1	0.3352	1435	16.3854	Eukaryota	Metazoa	Mollusca	Gastropoda	Trochida	Turbinidae	Steromphala umbilicaris
+2	Arx_AOLB_NC_1_contig2	0.3579	1221	14.6962	Eukaryota	Metazoa	Mollusca	Gastropoda	Neogastropoda	Volutidae	Cymbium olla
