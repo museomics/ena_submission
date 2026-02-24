@@ -1,0 +1,2 @@
+file                    format  type  num_seqs  sum_len  min_len  avg_len  max_len
+Mic_8023_440_KAR.fasta  FASTA   DNA          1    2,374    2,374    2,374    2,374

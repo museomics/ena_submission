@@ -1,0 +1,2 @@
+file                     format  type  num_seqs  sum_len  min_len  avg_len  max_len
+Turbo_SRR15496837.fasta  FASTA   DNA          1    5,529    5,529    5,529    5,529

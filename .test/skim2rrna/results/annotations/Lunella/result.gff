@@ -1,0 +1,4 @@
+##gff-version 3
+Lunella_contig0	barrnap:0.9	rRNA	185	2042	0	+	.	Name=18S_rRNA;product=18S ribosomal RNA
+Lunella_contig0	barrnap:0.9	rRNA	2380	6324	0	+	.	Name=28S_rRNA;product=28S ribosomal RNA
+Lunella_contig0	barrnap:0.9	rRNA	2385	2536	1e-29	+	.	Name=5_8S_rRNA;product=5.8S ribosomal RNA

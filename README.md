@@ -10,16 +10,18 @@ conda activate ena_submission_env
 #### Run code 
 ```
 python3 ena_submission.py \
-   -s .test/sample_list.txt \
-   -c .test/skim2mito/config/config.yaml \
-   -o example_output \
-   -b .test/skim2mito \
-   --project PRJEB76850 \
-   --platform Illumina \
-   --moleculetype "genomic DNA" \
-   --overwrite \
-   --ena_username Webin-67784 \
-   --ena_password xyx
+    --basedir .test/skim2mito/ \
+    --samples .test/sample_list.txt \
+    --output example_output_skim2mito \
+    --config .test/skim2mito/config/config.yaml \
+    --project <project_id> \
+    --locus_tag <locus_tag> \
+    --overwrite \
+    --ena_username <username> \
+    --ena_password <password> 
+
+
+
 
 ```
 

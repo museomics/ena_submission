@@ -1,0 +1,4 @@
+##gff-version 3
+Turbo_SRR15496837_contig0	barrnap:0.9	rRNA	1	3260	0	-	.	Name=28S_rRNA;product=28S ribosomal RNA
+Turbo_SRR15496837_contig0	barrnap:0.9	rRNA	3104	3255	9e-30	-	.	Name=5_8S_rRNA;product=5.8S ribosomal RNA
+Turbo_SRR15496837_contig0	barrnap:0.9	rRNA	3592	5449	0	-	.	Name=18S_rRNA;product=18S ribosomal RNA

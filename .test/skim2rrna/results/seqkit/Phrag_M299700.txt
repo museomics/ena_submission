@@ -1,0 +1,2 @@
+file                 format  type  num_seqs  sum_len  min_len  avg_len  max_len
+Phrag_M299700.fasta  FASTA   DNA          1    2,868    2,868    2,868    2,868
