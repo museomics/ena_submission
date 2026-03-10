@@ -24,6 +24,7 @@ parser = argparse.ArgumentParser(
 Example usage:
   %(prog)s \\
     --basedir .test/skim2mito/ \\
+    --pipeline skim2mito \\
     --samples .test/sample_list.txt \\
     --output example_output/ \\
     """
@@ -31,6 +32,10 @@ Example usage:
 
 parser.add_argument('--basedir', required=True,
     help='Base directory for skim2mito or skim2rrna with input files')  
+
+parser.add_argument('--pipeline', required=True,
+    choices=['skim2mito', 'skim2rrna'],
+    help='Pipeline that generated the input files (skim2mito or skim2rrna)')
 
 parser.add_argument('--samples', required=True,
     help='Path to TSV file with sample information (ID, scientificName, SampleID)')
@@ -63,9 +68,16 @@ parser.add_argument('--platform', required=False,
 parser.add_argument('--assembly_type', default='isolate',
     help='Assembly type (default: isolate)',
     choices=['isolate', 'clone'])
+
+parser.add_argument('--trans_table', required=False,
+    type=int, default=4,
+    help='NCBI translation table number (default: 4, i.e. mould/protozoan mitochondrial)')
     
 args = parser.parse_args()
 
+# set pipeline name from explicit argument
+pipeline_name = args.pipeline
+print(f"Pipeline: {pipeline_name}")
 
 # check if EMBLmyGFF3 is available
 try:
@@ -83,13 +95,6 @@ if not os.path.exists(args.basedir):
     print(f"Error: Base directory does not exist: {args.basedir}")
     sys.exit(1)
 print(f"Base directory exists: {args.basedir}")
-
-# get basename of directory which indicates if it's skim2mito or skim2rrna
-pipeline_name = os.path.basename(os.path.normpath(args.basedir))
-if pipeline_name not in ['skim2mito', 'skim2rrna']:
-    print(f"Error: Base directory should be named 'skim2mito' or 'skim2rrna', but got '{pipeline_name}'")
-    sys.exit(1)
-print(f"Detected pipeline: {pipeline_name}")
 
 # read samples file
 try:
@@ -160,6 +165,9 @@ with open(os.path.join(args.output, 'assembly_summary.tsv'), 'w') as summary:
         sample_ena_id = row['SampleID']
 
         print(f"Processing sample {sample_id} with scientific name {scientific_name}...")
+
+        # reset per-sample variables
+        average_coverage = None
 
         # define fasta and annotation paths
         fasta_path = os.path.join(args.basedir, f"results/assembled_sequence/{sample_id}.fasta")
@@ -280,7 +288,7 @@ with open(os.path.join(args.output, 'assembly_summary.tsv'), 'w') as summary:
             input_gff = temp_gff3_path, 
             topology = topology, 
             moleculetype = molecule_type,
-            trans_code = 4, 
+            trans_code = args.trans_table, 
             locus_tag = args.locus_tag, 
             scientific_name = scientific_name, 
             project_id = args.project, 
@@ -334,10 +342,11 @@ with open(os.path.join(args.output, 'assembly_summary.tsv'), 'w') as summary:
         with open(f'{sample_output_dir}/{sample_id}_manifest.txt', 'w') as manifest:
             manifest.write(f'STUDY\t{args.project}\n')
             manifest.write(f'DESCRIPTION\t{assembly_type}\n')
-            if assembly_type == 'mitochondrial complete' or assembly_type == 'mitochondrial partial' or assembly_type == 'mitochondrial contig':
+            if assembly_type in ('mitochondrial complete', 'mitochondrial partial', 'mitochondrial contig'):
                 manifest.write(f'SAMPLE\t{sample_ena_id}\n')
                 manifest.write(f'ASSEMBLYNAME\t{sample_id}\n')
-                manifest.write(f'COVERAGE\t{average_coverage}\n')
+                if assembly_type in ('mitochondrial complete', 'mitochondrial partial'):
+                    manifest.write(f'COVERAGE\t{average_coverage}\n')
                 manifest.write(f'PROGRAM\tGetOrganelle\n')
                 manifest.write(f'PLATFORM\t{args.platform}\n')
                 manifest.write(f'ASSEMBLYTYPE\t{args.assembly_type}\n')
@@ -388,4 +397,4 @@ with open(os.path.join(args.output, 'assembly_summary.tsv'), 'w') as summary:
         summary.write(f"{sample_id}\t{assembly_type}\t{fasta_count}\t{total_length}\t{annotation_count}\t{pass_status}\n")
     
 for c in cmds_to_submit:
-    print(' '.join(c)) 
+    print(' '.join(c))
